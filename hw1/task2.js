@@ -1,7 +1,7 @@
 'use strict';
 
 function reversed(number) {
-  number == String(number).split('').reverse().join('')
+  String(number) === String(number).split('').reverse().join('')
     ? console.log(`${number} - true`)
     : console.log(`${number} - false`);
 }

@@ -1,53 +1,48 @@
 'use strict';
 
 function main(variable) {
-  function matchValue(value) {
-    switch (value) {
-      case 'I':
-        return 1;
-      case 'V':
-        return 5;
-      case 'X':
-        return 10;
-      case 'L':
-        return 50;
-      case 'C':
-        return 100;
-      case 'D':
-        return 500;
-      case 'M':
-        return 1000;
-    }
+  const TimeTranslator = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+  };
+  function matchValue(key) {
+    return TimeTranslator[key];
   }
 
-  function func(z, index) {
+  function checkDischarge(item, index, arr) {
     /* Проверяем есть ли меньший разряд перед крупным для вычитания*/
-    if (index == 0) {
-      return z;
+    let result = item;
+    let functionArr = [...arr];
+
+    if (index === 0) {
+      return result;
     }
-    if (z > newArr[index - 1]) {
+    if (item > functionArr[index - 1]) {
       for (let j = index; j >= 0; j--) {
-        if (z > newArr[j - 1]) {
-          z = z - newArr[j - 1] - newArr[j - 1];
+        if (item > functionArr[j - 1]) {
+          result = result - functionArr[j - 1] - functionArr[j - 1];
         } else {
-          return z;
+          return result;
         }
       }
     } else {
-      return z;
+      return result;
     }
   }
   /*- Переводим в массив чисел-*/
-  let newArr = [];
-  variable.split('').map((item) => {
-    newArr.push(matchValue(item));
-  });
+  let newArr = variable.split('').map((el) => matchValue(el));
 
-  /*- вычисляем-*/
-  let sum = 0;
-  newArr.map((item, index) => {
-    sum = sum + func(item, index);
-  });
+  /*- вычисляем сумму чисел-*/
+  let sum = newArr.reduce(
+    (acc, item, index) => acc + checkDischarge(item, index, newArr),
+    0
+  );
+
   console.log(variable, sum);
 }
 
