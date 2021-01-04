@@ -1,0 +1,7 @@
+[
+  { "player": "one", "score": 10 },
+  { "player": "two", "score": 15 },
+  { "player": "three", "score": 8 },
+  { "player": "four", "score": 22 },
+  { "player": "five", "score": 66 }
+]

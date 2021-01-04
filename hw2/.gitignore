@@ -1,0 +1,6 @@
+package-lock.json
+node_modules
+readme.md
+dist
+.idea/
+*.iml
