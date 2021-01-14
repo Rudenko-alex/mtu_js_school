@@ -40,14 +40,10 @@ app.use(serveStatic('static', { index: ['index.html', 'default.htm'] }));
 
 app.use(express.json());
 
-// app.get('/', (req, res) => {
-//   res.statusCode = 200;
-//   res.setHeader('Content-Type', 'text/html');
-//   res.sendFile(__dirname + '/static/index.html');
-// });
-// console.log(req);
-// res.end('Hello World');
-// res.send(serveStatic('static', { index: ['index.html', 'default.htm'] }));
+app.get('/', (req, res) => {
+  res.statusCode = 200;
+  res.sendFile('index.html');
+});
 
 app.get('/results', (req, res) => {
   res.statusCode = 200;
@@ -58,6 +54,12 @@ app.get('/results', (req, res) => {
 app.post('/results', (req, res) => {
   insertScore(path, req.body.player, req.body.score);
   res.send('I am ok');
+});
+
+app.get('*', (req, res) => {
+  res.statusCode = 404;
+  /*-отправляем новый массив во фронт-*/
+  res.send('<h1>Страница не найдена</h1>');
 });
 
 app.listen(port, () => {
