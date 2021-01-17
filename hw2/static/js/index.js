@@ -10,9 +10,16 @@ let k = 0;
 /*- popup-*/
 let popupWrap = document.querySelector('.popup-wrap');
 let popup = document.querySelector('.popup');
+let popupName = document.querySelector('#name');
 let score = document.querySelector('.popup-score');
 let saveScore = document.querySelector('.popup-save');
-
+let userName = document.querySelector('.user-name');
+let maxScore = 0;
+let userValue = document.cookie.replace(
+  /(?:(?:^|.*;\s*)nameUser\s*\=\s*([^;]*).*$)|^.*$/,
+  '$1'
+);
+popupName.value = userValue;
 let closePopup = (e) => {
   popupWrap.classList.remove('popup-wrap_active');
 };
@@ -29,7 +36,6 @@ saveScore.addEventListener('click', () => {
 
   let results = document.querySelectorAll('.result');
   results.forEach((item) => {
-    console.log('results', item);
     item.remove();
   });
 
@@ -56,13 +62,15 @@ let point = 0;
 
 /*-Выставляем score-*/
 async function getScores() {
-  fetch('http://localhost:3000/results')
+  await fetch('http://localhost:3000/results')
     .then((response) => {
       return response.json();
     })
     .then((res) => {
-      console.log('res', res);
       res.forEach((item) => {
+        if (item.player === userValue) {
+          maxScore < item.score ? (maxScore = item.score) : maxScore;
+        }
         result.insertAdjacentHTML(
           'beforeend',
           `<p class="result">${item.player}:${item.score} </p>`
@@ -71,7 +79,9 @@ async function getScores() {
     });
 }
 
-getScores();
+getScores().then(() => {
+  userName.innerHTML = `<span>${userValue}: ${maxScore} </span>`;
+});
 
 clearScore.addEventListener('click', () => {
   localStorage.clear();

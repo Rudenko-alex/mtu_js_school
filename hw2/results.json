@@ -1,7 +1,1 @@
-[
-  { "player": "one", "score": 10 },
-  { "player": "two", "score": 15 },
-  { "player": "three", "score": 8 },
-  { "player": "four", "score": 22 },
-  { "player": "five", "score": 66 }
-]
+[{"player":"one","score":10},{"player":"two","score":15},{"player":"three","score":8},{"player":"four","score":22},{"player":"five","score":66},{"player":"","score":4},{"player":"dtr","score":23},{"player":"admin","score":18},{"player":"admin","score":14},{"player":"admin","score":22},{"player":"admin","score":17},{"player":"admin","score":21}]
