@@ -156,3 +156,18 @@ td {
   flex-basis: 50%;
   font-size: 25px;
 }
+/*----------------------------*/
+.form {
+  margin: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form > p {
+  margin: 5px;
+}
+.bad-login {
+  color: #541d1d;
+  font-weight: bold;
+  font-size: 15px;
+}
