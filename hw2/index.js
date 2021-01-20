@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 var path = require('path');
 var serveStatic = require('serve-static');
 const fs = require('fs');
@@ -12,12 +13,13 @@ const port = 3000;
 
 const pathRes = __dirname + '/results.json';
 
+/*-------вытягиваем роутер--------------------------*/
+
+const auth = require('./routes/auth');
+
+/*--------------------------------------------------*/
+
 app.use(serveStatic(path.join(__dirname, 'static'), { index: false }));
-// app.use(express.static(path.join(__dirname, 'static'), { index: false }));
-// app.use('/llog', express.static(path.join(__dirname, 'static') + 'login.html'));
-// console.log('path.resolve()', path.resolve(__dirname, 'static', 'login.html'));
-// console.log(express.static(path.resolve(__dirname, 'static', 'login.html')));
-// console.log(express.static(path.join(__dirname, 'static')));
 app.use(cookieParser());
 
 app.use(express.json()); // for parsing application/json
@@ -34,23 +36,30 @@ app.use((req, res, next) => {
   return next();
 });
 
+// DB Config
+const db = require('./config/keys').mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(db, { useNewUrlParser: true, useFindAndModify: false })
+  .then(() => console.log('MongoDB Connected'))
+  .catch((err) => console.log(err));
+
+// Use Routes
+
+app.use('/api/login', auth);
+
+/*-----------------------------------------*/
+
 app.get('/', (req, res) => {
   if (req.userAuth) {
-    res.statusCode = 200;
+    console.log(path.join(__dirname, 'static') + '/index.html');
+    // res.statusCode = 200;
     res.sendFile(path.join(__dirname, 'static') + '/index.html');
   } else {
+    console.log(path.join(__dirname, 'static') + '/login.html');
     res.sendFile(path.join(__dirname, 'static') + '/login.html');
   }
-});
-
-app.post('/login', (req, res) => {
-  if (req.body.login === user.name && req.body.password === user.pass) {
-    res.cookie('isAuth', 'yes', { maxAge: 15 * 60 * 1000, httpOnly: true });
-    res.cookie('nameUser', req.body.login);
-  } else {
-    res.cookie('isAuth', 'no');
-  }
-  res.redirect('/');
 });
 
 app.get('/results', (req, res) => {
@@ -61,15 +70,19 @@ app.get('/results', (req, res) => {
   res.redirect('/');
 });
 
-app.post('/results', (req, res) => {
-  insertScore(pathRes, req.body.player, req.body.score);
-  res.send('I am ok');
-});
+// app.post('/results', (req, res) => {
+//   insertScore(pathRes, req.body.player, req.body.score);
+//   res.send('I am ok');
+// });
 
 app.get('/logout', (req, res) => {
   res.clearCookie('isAuth');
   res.clearCookie('nameUser');
   res.redirect('/');
+});
+
+app.get('/registration', (req, res) => {
+  res.sendFile(path.join(__dirname, 'static') + '/registration.html');
 });
 
 app.get('*', (req, res) => {

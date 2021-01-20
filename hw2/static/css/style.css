@@ -167,7 +167,40 @@ td {
   margin: 5px;
 }
 .bad-login {
+  position: absolute;
+  top: 40px;
+  left: 38%;
   color: #541d1d;
   font-weight: bold;
   font-size: 15px;
+}
+
+.reg {
+  margin-left: 5px;
+}
+/*--------registration----------------------*/
+.registration-form {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.input-wrapper {
+  position: relative;
+  width: intrinsic;
+  width: -moz-max-content;
+  width: -webkit-max-content;
+}
+
+.input-wrapper input {
+  min-width: 120px;
+  padding: 10px;
+  margin-bottom: 24px;
+}
+
+.input-wrapper i {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  color: grey;
 }
